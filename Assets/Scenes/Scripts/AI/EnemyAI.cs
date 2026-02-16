@@ -131,6 +131,8 @@ void Attack()
         rb.velocity = new Vector2(0f, rb.velocity.y);
         Debug.Log("Attacking player!");
         playerObject.TakeDamage(10);
+        Debug.Log("Player health: " + playerObject.currentHealth());
+
     }
 }
 
