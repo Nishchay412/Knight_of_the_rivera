@@ -42,6 +42,18 @@ public class EnemyAI : MonoBehaviour
     }
 }
 
+void Attack(){
+    //walk towards the player until the distance is less than 1f and the distance
+    // from the spawn location isnt , then attack the player 
+    // how to walk towards the player --> do we need A* pathfinding or can we just move in the direction of the player?
+    // can just move to the direction of the player for now and then add changes later .
+    // logic : keep track of the player's x and y position and keep the y position same 
+    // and move until x position is less than 1f . 
+    //
+
+}
+
+
 
 
     void Patrol()
