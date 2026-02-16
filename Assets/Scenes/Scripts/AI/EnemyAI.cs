@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour
     void FixedUpdate()
     {
         Patrol();
+        DetectPlayer();
     }
     // detect the distance between the player and the enemy
     // how to detect the enemy position --> 
@@ -30,12 +31,21 @@ public class EnemyAI : MonoBehaviour
     void DetectPlayer()
 {
     float distance = Vector2.Distance(transform.position, player.position);
-
+   // Debug.Log("Distance to player: " + distance);   
     if (distance < 5f)
     {
         Vector2 direction = (player.position - transform.position).normalized;
+        Vector2 origin = (Vector2)transform.position + direction * 0.6f;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 5f);
+        Debug.DrawRay(origin, direction * 5f, Color.red);
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 5f);
+
+
+        if (hit.collider != null)
+        {
+            Debug.Log("Ray hit: " + hit.collider.gameObject.name);
+        }   
 
         if (hit.collider != null && hit.collider.gameObject == player.gameObject)
         {

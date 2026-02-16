@@ -9,12 +9,14 @@ public class Player : MonoBehaviour
     private Vector2 moveInput;
     private int inventoryIndex = 0; 
     public bool canMove = true;
+    public Transform player;
 
 
     void Awake()
     {
         unit = GetComponent<Unit>();
         rb = GetComponent<Rigidbody2D>();
+        Debug.Log("Player assigned" + player.name);
     }
 
     void Update()
