@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private int inventoryIndex = 0; 
+    public bool canMove = true;
+
 
     void Awake()
     {
@@ -29,6 +31,12 @@ public class Player : MonoBehaviour
     {
         TryAttack();
     }
+    if (!canMove)
+    {
+        moveInput = Vector2.zero;
+        return;
+    }
+
 
     // -------- Pickup --------
     if (Input.GetKeyDown(KeyCode.E))
