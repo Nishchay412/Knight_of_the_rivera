@@ -81,7 +81,7 @@ public void backtoPatrol(){
          // Try to get the Unit component from the hit object
         if (hit.collider != null)
         {
-            Debug.Log("Ray hit: " + hit.collider.gameObject.name);
+            //Debug.Log("Ray hit: " + hit.collider.gameObject.name);
         }   
 
         if (hit.collider != null && hit.collider.gameObject == player.gameObject)
@@ -129,9 +129,9 @@ void Attack()
     else if (distance <= 1f)
     {
         rb.velocity = new Vector2(0f, rb.velocity.y);
-        Debug.Log("Attacking player!");
+        //Debug.Log("Attacking player!");
         playerObject.TakeDamage(10);
-        Debug.Log("Player health: " + playerObject.currentHealth());
+        Debug.Log("Player health: " + playerObject.currentHealthlog);
 
     }
 }

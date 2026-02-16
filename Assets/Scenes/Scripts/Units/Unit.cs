@@ -43,7 +43,7 @@ public class Unit : MonoBehaviour
         inventory.Add(item);
         Debug.Log($"{gameObject.name} picked up {item.name}");
     }
-    public int currentHealth{
+    public int currentHealthlog{
         get { return currentHealth; }
     }
 
