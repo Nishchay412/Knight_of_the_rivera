@@ -45,8 +45,11 @@ public class EnemyAI : MonoBehaviour
     }
 }
 
-void Attack(){
-    //walk towards the player until the distance is less than 1f and the distance
+
+    
+void Attack()
+{
+     //walk towards the player until the distance is less than 1f and the distance
     // from the spawn location isnt , then attack the player 
     // how to walk towards the player --> do we need A* pathfinding or can we just move in the direction of the player?
     // can just move to the direction of the player for now and then add changes later .
@@ -58,28 +61,30 @@ void Attack(){
     //
     // lets just presume for now that the y value of the player is the same 
     float distance = Vector2.Distance(transform.position, player.position);
+    float yDifference = Mathf.Abs(player.position.y - transform.position.y);
 
-    if distance > 1f && player.transform.position.y == transform.position.y 
+    // If player is roughly on same platform
+    if (distance > 1f && yDifference < 0.3f)
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-        rb.velocity = new Vector2(direction.x * walkingSpeed, rb.velocity.y);
+        float direction = Mathf.Sign(player.position.x - transform.position.x);
+        rb.velocity = new Vector2(direction * walkingSpeed, rb.velocity.y);
     }
-    else if (distance> 1f && player.transform.position.y != transform.position.y){
-        while (detectionMetre>0){
-            detectionMetre -= Time.deltaTime * 10f; // Decrease detection metre over time when player is close but not detected 
-            ""
-    }
+    else if (distance > 1f && yDifference >= 0.3f)
     {
-        else if (distance <= 1f)
-        {
-            Debug.Log("Attacking player!");
-            // Here you would implement the actual attack logic, such as reducing player's health
-        }
+        // Player is not on same vertical level
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+
+        detectionMetre -= Time.deltaTime * 10f;
     }
-
-
-
+    else if (distance <= 1f)
+    {
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+        Debug.Log("Attacking player!");
+    }
 }
+
+
+
 
 
 
