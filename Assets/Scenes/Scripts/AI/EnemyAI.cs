@@ -8,6 +8,8 @@ public class EnemyAI : MonoBehaviour
     private Vector2 spawnLocation;
     private bool movingLeft = true;
     public Transform player;
+    public float detectionMetre; 
+
 
     void Start()
     {
@@ -38,6 +40,7 @@ public class EnemyAI : MonoBehaviour
         if (hit.collider != null && hit.collider.gameObject == player.gameObject)
         {
             Debug.Log("Player detected! Switching to attack state.");
+            detectionMetre = 100f; // Set detection metre to 100 when player is detected
         }
     }
 }
@@ -49,7 +52,32 @@ void Attack(){
     // can just move to the direction of the player for now and then add changes later .
     // logic : keep track of the player's x and y position and keep the y position same 
     // and move until x position is less than 1f . 
+    // what if the y changes ?
+
+    // might need to add A* pathfinding later if we want to add obstacles and stuff but for now we can just move in the direction of the player and then add changes later .
     //
+    // lets just presume for now that the y value of the player is the same 
+    float distance = Vector2.Distance(transform.position, player.position);
+
+    if distance > 1f && player.transform.position.y == transform.position.y 
+    {
+        Vector2 direction = (player.position - transform.position).normalized;
+        rb.velocity = new Vector2(direction.x * walkingSpeed, rb.velocity.y);
+    }
+    else if (distance> 1f && player.transform.position.y != transform.position.y){
+        while (detectionMetre>0){
+            detectionMetre -= Time.deltaTime * 10f; // Decrease detection metre over time when player is close but not detected 
+            ""
+    }
+    {
+        else if (distance <= 1f)
+        {
+            Debug.Log("Attacking player!");
+            // Here you would implement the actual attack logic, such as reducing player's health
+        }
+    }
+
+
 
 }
 
