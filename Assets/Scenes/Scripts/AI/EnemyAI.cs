@@ -9,19 +9,56 @@ public class EnemyAI : MonoBehaviour
     private bool movingLeft = true;
     public Transform player;
     public float detectionMetre; 
+    public Unit playerObject;
+    private enum State
+{
+    Patrol,
+    Chase,
+    Attack
+}
+
+private State currentState;
+
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spawnLocation = transform.position;
+        currentState = State.Patrol;
+
     }
 
     void FixedUpdate()
+{
+    switch (currentState)
     {
-        Patrol();
-        DetectPlayer();
+        case State.Patrol:
+            Patrol();
+            break;
+
+        case State.Chase:
+            Attack(); // your chase logic is inside Attack()
+            break;
+
+        case State.Attack:
+            Attack();
+            break;
     }
+
+
+    DetectPlayer();
+    backtoPatrol(); 
+}
+
+
+public void backtoPatrol(){
+    if (detectionMetre <= 0f)
+    {
+        currentState = State.Patrol;
+        detectionMetre = 100f; // Reset detection metre when going back to patrol
+    }
+}
     // detect the distance between the player and the enemy
     // how to detect the enemy position --> 
     // transform.position.x - player.transform.position.x --> 
@@ -41,7 +78,7 @@ public class EnemyAI : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, 5f);
 
-
+         // Try to get the Unit component from the hit object
         if (hit.collider != null)
         {
             Debug.Log("Ray hit: " + hit.collider.gameObject.name);
@@ -49,7 +86,10 @@ public class EnemyAI : MonoBehaviour
 
         if (hit.collider != null && hit.collider.gameObject == player.gameObject)
         {
+            //playerObject = hit.collider.gameObject; // Store the detected player object
+            playerObject = hit.collider.gameObject.GetComponent<Unit>();
             Debug.Log("Player detected! Switching to attack state.");
+            currentState = State.Attack;    
             detectionMetre = 100f; // Set detection metre to 100 when player is detected
         }
     }
@@ -90,6 +130,7 @@ void Attack()
     {
         rb.velocity = new Vector2(0f, rb.velocity.y);
         Debug.Log("Attacking player!");
+        playerObject.TakeDamage(10);
     }
 }
 
